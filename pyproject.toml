@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "azure-agents-starter"
+version = "0.1.0"
+description = "Hexagonal-architecture starter for LLM apps on Azure: multi-agent orchestration, RAG over Azure AI Search, Foundry Agent Service or local runtime."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "openai>=1.60,<4",
+    "azure-identity>=1.19",
+    "azure-search-documents>=11.6,<13",
+    "azure-ai-agents>=1.1,<2",
+    "aiohttp>=3.9",  # async transport for the Azure SDKs
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2.8",
+    "pydantic-settings>=2.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "httpx>=0.27", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+agents-starter = "agents_starter.adapters.inbound.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agents_starter"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["azure.*"]
+ignore_missing_imports = true
