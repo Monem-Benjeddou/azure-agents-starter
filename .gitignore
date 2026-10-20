@@ -2,8 +2,11 @@
 __pycache__/
 *.pyc
 .env
+temp_auto_push.bat
 .data/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 dist/
+.gitignore
+branch_structure.json
